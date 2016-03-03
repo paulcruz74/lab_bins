@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.function.Function;
 
 
 /**
@@ -38,7 +39,10 @@ public class Bins {
         }
         return total;
     }
-
+    public static void fitDisksAndPrint(List<Integer> list, Function<List<Integer>, List<Integer>> func){
+    	List<Integer> transformed = func.apply(list);
+    	transformed.forEach(System.out::println);
+    }
     // add files to the collection of Disks
     private Collection<Disk> allocateDisks (List<Integer> data) {
         PriorityQueue<Disk> pq = new PriorityQueue<>();
@@ -80,7 +84,10 @@ public class Bins {
         Collection<Disk> disks = allocateDisks(copy);
         printResults(disks, description);
     }
-
+    public static List<Integer> foo(List<Integer> something){
+    	Collections.sort(something);
+    	return something;
+    }
     /**
      * The main program.
      */
@@ -89,6 +96,7 @@ public class Bins {
         Scanner input = new Scanner(Bins.class.getClassLoader().getResourceAsStream(DATA_FILE));
         List<Integer> data = b.readData(input);
         System.out.println("total size = " + b.getTotal(data) / 1000000.0 + "GB");
+        fitDisksAndPrint(data, e -> foo(e));
 
         b.runAlgorithm(data, WORST_FIT);
         b.runAlgorithm(data, WORST_FIT_DECREASING);
